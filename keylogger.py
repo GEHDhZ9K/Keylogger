@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 
 from pynput import keyboard
+import time
+
+def time_now():
+  c_time = time.ctime().split(" ")[1:6]
+  del c_time[1]
+  return c_time
 
 def on_press(key):
   try:
