@@ -21,6 +21,7 @@ class Showlogs:
     self.root.title(title)
     self.root.geometry(geometry)
     Label(self.root, text=message, font=("Helvetica", 16)).pack(pady=2)
+    button = Button(self.root, text="Exit", command=self.root.destroy).pack()
     self.root.mainloop()
 
 def main():
