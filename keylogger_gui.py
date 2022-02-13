@@ -17,7 +17,7 @@ class MainWindow:
 
   def logs(self):
     self.new_win =  Toplevel(self.root)
-    self.new_win = Log_table(self.new_win, "Log Table", "900x222+510+425")
+    self.new_win = Log_table(self.new_win, "Log Table", "1010x610+510+125")
 
   def delete_logs(self):
     self.remove = os.remove("./logs/logs.csv")
@@ -32,10 +32,7 @@ class Log_table:
     self.TableMargin = Frame(self.root, width=500)
     self.TableMargin.pack(side=TOP)
     self.scrollbary = Scrollbar(self.TableMargin, orient=VERTICAL)
-    self.tree = ttk.Treeview(self.TableMargin, columns=("key", "pressed" ,"released", "time"))
-    
-    self.style = ttk.Style(self.TableMargin)
-    self.style.configure("Log.Treeview", rowheight=70)
+    self.tree = ttk.Treeview(self.TableMargin, columns=("key", "pressed" ,"released", "time"), height=30)
     
     self.scrollbary.config(command=self.tree.yview)
     self.scrollbary.pack(side=RIGHT, fill=Y)
