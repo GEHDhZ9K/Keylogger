@@ -8,7 +8,7 @@ def read_lines(file="./logs/logs.csv"):
     return f.readlines()
 
 def create_csv(file="./logs/logs.csv"):
-  anchor_values = ["condition", "key", "time"]
+  anchor_values = ["pressed", "released", "key", "time"]
   with open(file, "w") as f:
     csv.writer(f).writerow(anchor_values)
 
@@ -16,6 +16,7 @@ def check():
   path = os.path.abspath(__file__).split("/")[0:-1]
   if os.getcwd() != "/".join(path):
     os.chdir(os.path.dirname(sys.argv[0]))
+
   if "logs" not in os.listdir():
     os.mkdir("logs")
     create_csv()
@@ -32,23 +33,26 @@ def time_now():
 
 def on_press(key):
   keys = []
-  keys.append("pressed")
+  keys.extend(("True", " "))
   try:
     keys.append(key.char)
   except AttributeError:
-    keys.append(key)
+    keys.append(str(key).split(".")[1])
+
   keys.append(time_now())
   write_on_file(keys)
 
 def on_release(key):
   keys = []
-  keys.append("released")
+  keys.extend((" ", "True"))
   try:
     keys.append(key.char)
   except AttributeError:
-    keys.append(key)
-  if key == keyboard.Key.esc:
+    keys.append(str(key).split(".")[1])
+  
+  if key == keyboard.Key.end:
     return False
+
   keys.append(time_now())
   write_on_file(keys)
 
