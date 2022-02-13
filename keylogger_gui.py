@@ -1,32 +1,65 @@
 from tkinter import *
-import sys
+import tkinter.ttk as ttk
+import csv
+
+global_font = ("Arial", 16, "bold")
 
 class MainWindow:
-  def __init__(self, root, title, geometry, message):
+  def __init__(self, root, title, geometry):
     self.root = root
     self.root.title(title)
     self.root.geometry(geometry)
-    Label(self.root, text=message, font=("Helvetica", 16)).pack(pady=20)
-    button1 = Button(self.root, text="logs", command=self.logs)
-    button1.pack()
+    button1 = Button(self.root, text="Show Logs", font=global_font, command=self.logs, height=3, width=15).pack(pady=10)
+    
     self.root.mainloop()
 
   def logs(self):
     self.new_win =  Toplevel(self.root)
-    self.new_win = Showlogs(self.new_win, "logs", "1280x720+360+210", "Logs are here")
+    self.new_win = Log_table(self.new_win, "Log Table", "900x222+510+425")
 
-class Showlogs:
-  def __init__(self, root, title, geometry, message):
+class Log_table:
+  def __init__(self, root, title, geometry):
     self.root = root
     self.root.title(title)
     self.root.geometry(geometry)
-    Label(self.root, text=message, font=("Helvetica", 16)).pack(pady=2)
-    button = Button(self.root, text="Exit", command=self.root.destroy).pack()
+    self.root.resizable(0, 1)
+
+    self.TableMargin = Frame(self.root, width=500)
+    self.TableMargin.pack(side=TOP)
+    self.scrollbary = Scrollbar(self.TableMargin, orient=VERTICAL)
+    self.tree = ttk.Treeview(self.TableMargin, columns=("key", "pressed" ,"released", "time"))
+    
+    self.style = ttk.Style(self.TableMargin)
+    self.style.configure("Log.Treeview", rowheight=70)
+    
+    self.scrollbary.config(command=self.tree.yview)
+    self.scrollbary.pack(side=RIGHT, fill=Y)
+
+    self.tree.heading("pressed", text="pressed", anchor=W)
+    self.tree.heading("released", text="released", anchor=W)
+    self.tree.heading("key", text="key", anchor=W)
+    self.tree.heading("time", text="time", anchor=W)
+    self.tree.column("#0", stretch=NO, minwidth=0, width=0)
+    self.tree.column("#1", stretch=NO, minwidth=0, width=200)
+    self.tree.column("#2", stretch=NO, minwidth=0, width=200)
+    self.tree.column("#3", stretch=NO, minwidth=0, width=300)
+    self.tree.column("#4", stretch=NO, minwidth=0, width=300)
+    self.tree.pack()
+
+    with open("./logs/logs.csv") as f:
+      reader = csv.DictReader(f, delimiter=",")
+      for row in reader:
+        pressed = row['pressed']
+        released = row['released']
+        key = row['key']
+        time = row['time']
+        self.tree.insert("", 1, values=(key, pressed, released, time))
+
     self.root.mainloop()
 
 def main():
   root = Tk()
-  window = MainWindow(root, "keylogger", "400x400+573+306", "BUTTONS")
+  window = MainWindow(root, "Keylogger", "400x400+573+306")
 
 if __name__ == "__main__":
   main()
