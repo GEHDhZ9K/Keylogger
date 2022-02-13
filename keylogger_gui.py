@@ -1,6 +1,6 @@
 from tkinter import *
 import tkinter.ttk as ttk
-import csv
+import csv, os
 
 global_font = ("Arial", 16, "bold")
 
@@ -10,12 +10,17 @@ class MainWindow:
     self.root.title(title)
     self.root.geometry(geometry)
     button1 = Button(self.root, text="Show Logs", font=global_font, command=self.logs, height=3, width=15).pack(pady=10)
+    button2 = Button(self.root, text="Delete Logs", font=global_font, command=self.delete_logs, height=3, width=15).pack(pady=10)
+    button3 = Button(self.root, text="Close Application", font=global_font, command=self.root.destroy, height=3).pack(pady=10)
     
     self.root.mainloop()
 
   def logs(self):
     self.new_win =  Toplevel(self.root)
     self.new_win = Log_table(self.new_win, "Log Table", "900x222+510+425")
+
+  def delete_logs(self):
+    self.remove = os.remove("./logs/logs.csv")
 
 class Log_table:
   def __init__(self, root, title, geometry):
