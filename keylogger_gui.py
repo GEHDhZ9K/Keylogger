@@ -61,7 +61,7 @@ class Log_table:
 
 def main():
   root = Tk()
-  window = MainWindow(root, "Keylogger", "400x400+573+306")
+  window = MainWindow(root, "Keylogger", "300x350+573+306")
 
 if __name__ == "__main__":
   main()
