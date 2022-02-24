@@ -2,7 +2,6 @@
 A simple keylogger with GUI written in python using pynput and tkinter
 
 # requirements
-* tkinter
 * pynput
 
 Or simply do:
