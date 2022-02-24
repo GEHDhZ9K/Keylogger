@@ -1,5 +1,10 @@
-from tkinter import *
-import tkinter.ttk as ttk
+try: 
+  from tkinter import *
+  from tkinter import ttk
+except ImportError:
+  from Tkinter import *
+  from Tkinter import ttk
+
 import csv, os
 
 global_font = ("Arial", 16, "bold")
